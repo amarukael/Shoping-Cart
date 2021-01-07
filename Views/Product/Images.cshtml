@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Images";
+}
+
+
+@{
+    Html.BeginForm("Images", "Product", FormMethod.Post, new { enctype = "multipart/form-data" });
+    @Html.AntiForgeryToken()
+    foreach (var p in @ViewBag.pro)
+    {
+        <h2>Add Images @p.pname</h2>
+
+        <table>
+            <tr>
+                <td>Select Image :</td>
+                <td><input type="hidden" name="id" value="@p.pid" /></td>
+                <td><input id="file" type="file" name="file" /></td>
+                <td><input id="submit" type="submit" value="Save" /></td>
+            </tr>
+        </table>
+    }
+}
+<hr />
+<div>
+    @foreach (var i in @ViewBag.imgs)
+    {
+        <img src="~/Content/Images/@i.iname" width="100" height="100" />
+    }
+</div>
