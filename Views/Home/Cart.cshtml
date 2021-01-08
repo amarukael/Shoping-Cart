@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_LayoutFix.cshtml";
+}
+
+@{
+    var total = 0;
+    myshopDBEntities obj = new myshopDBEntities();
+    var it = obj.tblproes.ToList();
+    foreach (var item in ViewBag.c)
+    {
+        foreach (var i in it)
+        {
+            if (i.pid == @item.iid)
+            {
+                var amt = @item.iqty * @i.pprice;
+                total += amt;
+
+                <div class="container">
+                    <div class="product-content">
+                        <div class="woocommerce">
+                                <table cellspacing="0" class="shop_table cart">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-price">Price</th>
+                                            <th class="product-quantity">Quantity</th>
+                                            <th class="product-subtotal">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="cart_item">
+                                            <td class="product-name">
+                                                <a href="single-product.html">@i.pname</a>
+                                            </td>
+
+                                            <td class="product-price">
+                                                <span class="amount">@i.pprice</span>
+                                            </td>
+
+                                            <td class="product-quantity">
+                                                <span class="amount">@item.iqty</span>
+                                            </td>
+
+                                            <td class="product-subtotal">
+                                                <span class="amount">@amt</span>
+                                            </td>
+                                        </tr>
+                                        @Html.BeginForm("Checkout", "Home", FormMethod.Post);
+                                                <tr>
+                                                    <td class="product-name"></td>
+
+                                                    <td class="product-price"></td>
+
+                                                    <td class="product-quantity">
+                                                        <input type="hidden" value="@total" name="total" />
+                                                        <input type="submit" value="Checkout" class="checkout-button button alt wc-forward"/>
+                                                    </td>
+
+                                                    <td class="product-subtotal">
+                                                        <span class="amount">@total</span>
+                                                    </td>
+                                                </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+}
